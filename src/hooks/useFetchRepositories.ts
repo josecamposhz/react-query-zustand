@@ -4,7 +4,7 @@ import { Repository } from "../types";
 
 async function fetchRepositories(ctx: QueryFunctionContext) {
   const [_, githubUser] = ctx.queryKey;
-  const { data } = await api.get<Repository[]>(`/users/${githubUser}/repos`);
+  const { data } = await api.get<Repository[]>(`/users/${githubUser}/repos?per_page=12`);
   return data;
 }
 
