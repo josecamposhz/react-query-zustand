@@ -1,17 +1,11 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
+import { FavoriteRepositories } from "./components/FavoriteRepositories";
 import "./App.css";
-import { Card } from "./components/Card";
-import { useFetchRepositories } from "./hooks/useFetchRepositories";
-import { useFavoriteRepositoriesStore } from "./store";
 
 function App() {
   const [userInput, setUserInput] = useState<string>("josecamposhz");
-  const [user, setUser] = useState<string>("josecamposhz");
-  const { data, isLoading, isError } = useFetchRepositories(user);
-  const favorites = useFavoriteRepositoriesStore((state) => state.favorites);
-
-  if (isLoading) return <div>Loading...</div>;
+  const [user, setUser] = useState<string>(userInput);
 
   return (
     <div className="App">
@@ -23,7 +17,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1>FavoriteRepos</h1>
       <header
         style={{
           display: "flex",
@@ -38,17 +32,7 @@ function App() {
         />
         <button onClick={() => setUser(userInput)}>Buscar</button>
       </header>
-      {isError && <div>Usuario no encontrado</div>}
-      <h2>Total repositories: {data?.length}</h2>
-      <section className="repositories-section">
-        {data?.map((repository) => (
-          <Card
-            key={repository.id}
-            repository={repository}
-            isFavorite={favorites.includes(repository.id)}
-          />
-        ))}
-      </section>
+      <FavoriteRepositories user={user} />
     </div>
   );
 }
